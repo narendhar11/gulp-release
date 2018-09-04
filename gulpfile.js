@@ -160,14 +160,14 @@ gulp.task('prerelease', function(){
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
-        token: '6bb5998f56f95f081e3c1d1fa31b4b730b3712c5',                     // or you can set an env var called GITHUB_TOKEN instead
+        token: '793bff368179d052ffae225af115047cd4cdae9c',                     // or you can set an env var called GITHUB_TOKEN instead
         owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
         repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
         tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
         name: 'gulp-release '+version,     // if missing, it will be the same as the tag
         notes: 'very good!',                // if missing it will be left undefined
         draft: false,                       // if missing it's false
-        prerelease: true,                  // if missing it's false
+        prerelease: false,                  // if missing it's false
         manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
     }));
     
