@@ -16,6 +16,7 @@ var gutil = require('gulp-util');
 var git = require('gulp-git');
 var conventionalChangelog = require('gulp-conventional-changelog');
 var conventionalGithubReleaser = require('conventional-github-releaser');
+var release = require('gulp-github-release');
 
 /**
  *  This will load all js or coffee files in the gulp directory
@@ -47,9 +48,6 @@ gulp.task('default', ['clean'], function ()
 {
     gulp.start('build');
 });
-
-
-
 
 
 var knownOptions = {
@@ -137,13 +135,28 @@ gulp.task('create-new-tag', function (cb) {
     }
 });
 
-gulp.task('release:github', function (done) {
-    conventionalGithubReleaser({
-        type: "oauth",
-        token: 'cc8aad8983404674307c834b88272c9f4d1d4595' // change this to your own GitHub token or use an environment variable
-    }, {
-        preset: 'cniguard' // Or to any other commit message convention you use.
-    }, done);
+// gulp.task('release:github', function (done) {
+//     conventionalGithubReleaser({
+//         type: "oauth",
+//         token: 'cc8aad8983404674307c834b88272c9f4d1d4595' // change this to your own GitHub token or use an environment variable
+//     }, {
+//         preset: 'cniguard' // Or to any other commit message convention you use.
+//     }, done);
+// });
+gulp.task('prerelease', function(){
+    var version = JSON.parse(fs.readFileSync('package.json')).version;
+    gulp.src('./dist/some-file.exe')
+      .pipe(release({
+        token: '11fe54a96f9963bdcc16b1dbd721e9f7a5d277eb',                     // or you can set an env var called GITHUB_TOKEN instead
+        owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
+        repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
+        tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
+        name: 'gulp-release '+version,     // if missing, it will be the same as the tag
+        notes: 'very good!',                // if missing it will be left undefined
+        draft: false,                       // if missing it's false
+        prerelease: true,                  // if missing it's false
+        manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
+    }));
 });
 
 gulp.task('release', function(cb) {
@@ -153,15 +166,16 @@ gulp.task('release', function(cb) {
         'commit-changelog',     // generate and commit changelog
         'push-changes',         // push all commits to github
         'create-new-tag',       // generate tag and push it
+        'prerelease',
         //'release:github',       // generate github release
         //'publish:coveralls',    // generate and publish coveralls
     function(error) {
         if (error) {
             console.log(error);
-        }else{
-            console.log('Release created successfully')
         }
         
         cb(error);
     });
 });
+
+
