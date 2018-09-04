@@ -8,13 +8,12 @@
 
 var gulp = require('gulp');
 var fse = require('fs-extra');
-var runSequence = require('run-sequence');
 var minimist = require('minimist');
-var gutil = require('gulp-util');
+var runSequence = require('run-sequence');
 var bump = require('gulp-bump');
+var fs = require('fs');
+var gutil = require('gulp-util');
 var git = require('gulp-git');
-var conventionalGithubReleaser = require('conventional-github-releaser');
-var conventionalChangelog = require('gulp-conventional-changelog');
 
 /**
  *  This will load all js or coffee files in the gulp directory
@@ -93,22 +92,6 @@ gulp.task('commit-changes', function () {
         .pipe(git.commit(msg));
 });
 
-gulp.task('changelog', function () {
-    return gulp.src('CHANGELOG.md', {
-        buffer: false
-    })
-    .pipe(conventionalChangelog({
-        preset: 'angular',
-        outputUnreleased: true,
-        releaseCount: 0
-    }, {    // CHANGE: Put your github repository info
-        host: 'https://github.com',
-        owner: 'narendhar11',
-        repository: 'REPOSITORY'
-    }))
-    .pipe(gulp.dest('./'));
-});
-
 gulp.task("commit-changelog", ["changelog"], function() {
     return gulp.src("CHANGELOG.md")
         .pipe(git.add())
@@ -139,17 +122,14 @@ gulp.task('create-new-tag', function (cb) {
 gulp.task('release:github', function (done) {
     conventionalGithubReleaser({
         type: "oauth",
-        token: '7490281773beee28e0640fd61b626346240c3b6c' // change this to your own GitHub token or use an environment variable
+        token: 'TOKEN' // change this to your own GitHub token or use an environment variable
     }, {
-        preset: 'cniguard' // Or to any other commit message convention you use.
+        preset: 'angular' // Or to any other commit message convention you use.
     }, done);
 });
 
-
-
-
-gulp.task('release', function(callback) {
-    runSequence(            // build + bundle + tests + docs
+gulp.task('release', function(cb) {
+    runSequence(             // build + bundle + tests + docs
         'version',              // bump version
         'commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
         'commit-changelog',     // generate and commit changelog
@@ -160,10 +140,10 @@ gulp.task('release', function(callback) {
     function(error) {
         if (error) {
             console.log(error);
-        }else {
-            console.log('RELEASE FINISHED SUCCESSFULLY');
+        }else{
+            console.log('Release created successfully')
         }
         
-        callback(error);
+        cb(error);
     });
 });
