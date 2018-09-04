@@ -135,15 +135,6 @@ gulp.task('create-new-tag', function (cb) {
     }
 });
 
-// gulp.task('release:github', function (done) {
-//     conventionalGithubReleaser({
-//         type: "oauth",
-//         token: 'cc8aad8983404674307c834b88272c9f4d1d4595' // change this to your own GitHub token or use an environment variable
-//     }, {
-//         preset: 'cniguard' // Or to any other commit message convention you use.
-//     }, done);
-// });
-
 
 gulp.task('release', function(cb) {
     runSequence(             // build + bundle + tests + docs
@@ -170,7 +161,7 @@ gulp.task('prerelease', function(){
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
-        token: '68157006eb3e9e37398cc1ae33921ea78a23d5f2',                     // or you can set an env var called GITHUB_TOKEN instead
+        token: '97de145701ec520ba22ec53d459210e934ec76ca',                     // or you can set an env var called GITHUB_TOKEN instead
         owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
         repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
         tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
