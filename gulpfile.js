@@ -55,7 +55,7 @@ gulp.task('default', ['clean'], function ()
 var knownOptions = {
     boolean: ['major', 'minor', 'patch'],
     alias: { major: 'M', minor: 'm', patch: 'p' },
-    default: { major: false, minor: false, patch: false, M: false, m: false, p: false }
+    default: { major: false, minor: true, patch: false, M: false, m: true, p: false }
 };
 
 var options = minimist(process.argv.slice(2), knownOptions);
@@ -87,7 +87,7 @@ gulp.task('commit-changes', function () {
     }
     
     var version = JSON.parse(fs.readFileSync('package.json')).version;
-    var msg = 'chore(release): Release ' + kind + ' version (v' + version + ')';
+    var msg = 'chore(release): Release ' + kind + ' version (' + version + ')';
 
     return gulp.src('.')
         .pipe(git.add())
