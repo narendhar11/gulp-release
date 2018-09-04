@@ -136,7 +136,7 @@ gulp.task('create-new-tag', function (cb) {
 });
 
 
-gulp.task('release', function(cb) {
+gulp.task('release', function() {
     runSequence(             // build + bundle + tests + docs
         'version',              // bump version
         'commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
@@ -153,7 +153,7 @@ gulp.task('release', function(cb) {
             console.log('Release Successfully Created')
         }
         
-        cb(error);
+        //cb(error);
     });
 });
 
