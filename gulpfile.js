@@ -143,11 +143,32 @@ gulp.task('create-new-tag', function (cb) {
 //         preset: 'cniguard' // Or to any other commit message convention you use.
 //     }, done);
 // });
-gulp.task('prerelease', function(){
+
+
+gulp.task('release', function(cb) {
+    runSequence(             // build + bundle + tests + docs
+        'version',              // bump version
+        'commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
+        'commit-changelog',     // generate and commit changelog
+        'push-changes',         // push all commits to github
+        'create-new-tag',       // generate tag and push it
+        //'prerelease',
+        //'release:github',       // generate github release
+        //'publish:coveralls',    // generate and publish coveralls
+    function(error) {
+        if (error) {
+            console.log(error);
+        }
+        
+        cb(error);
+    });
+});
+
+gulp.task('prerelease', ["release"], function(){
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
-        token: '11fe54a96f9963bdcc16b1dbd721e9f7a5d277eb',                     // or you can set an env var called GITHUB_TOKEN instead
+        token: ' 05b7a3de60e5fe724de0289d6b8032d3685d84fe',                     // or you can set an env var called GITHUB_TOKEN instead
         owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
         repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
         tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
@@ -160,23 +181,6 @@ gulp.task('prerelease', function(){
     
 });
 
-gulp.task('release', function(cb) {
-    runSequence(             // build + bundle + tests + docs
-        'version',              // bump version
-        'commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
-        'commit-changelog',     // generate and commit changelog
-        'push-changes',         // push all commits to github
-        'create-new-tag',       // generate tag and push it
-        'prerelease',
-        //'release:github',       // generate github release
-        //'publish:coveralls',    // generate and publish coveralls
-    function(error) {
-        if (error) {
-            console.log(error);
-        }
-        
-        cb(error);
-    });
-});
+
 
 
