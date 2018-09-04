@@ -158,6 +158,8 @@ gulp.task('release', function(cb) {
     function(error) {
         if (error) {
             console.log(error);
+        }else{
+            console.log('Release Successfully Created')
         }
         
         cb(error);
