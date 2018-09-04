@@ -138,11 +138,12 @@ gulp.task('create-new-tag', function (cb) {
 
 gulp.task('release', function() {
     runSequence(             // build + bundle + tests + docs
-        'version',              // bump version
+        'version',             // bump version
+        'prerelease',
         'commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
         'commit-changelog',     // generate and commit changelog
         'push-changes',        // push all commits to github
-        'prerelease',
+        
         //'create-new-tag',       // generate tag and push it
         //'release:github',       // generate github release
         //'publish:coveralls',    // generate and publish coveralls
@@ -159,7 +160,7 @@ gulp.task('prerelease', function(){
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
-        token: 'f34739ea2eb9e62050a1f34f79d4fc301ca68411',                     // or you can set an env var called GITHUB_TOKEN instead
+        token: '6bb5998f56f95f081e3c1d1fa31b4b730b3712c5',                     // or you can set an env var called GITHUB_TOKEN instead
         owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
         repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
         tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
