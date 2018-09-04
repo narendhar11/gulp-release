@@ -175,7 +175,7 @@ gulp.task('prerelease', ["release"], function(){
         name: 'gulp-release '+version,     // if missing, it will be the same as the tag
         notes: 'very good!',                // if missing it will be left undefined
         draft: false,                       // if missing it's false
-        prerelease: true,                  // if missing it's false
+        prerelease: false,                  // if missing it's false
         manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
     }));
     
