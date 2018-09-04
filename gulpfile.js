@@ -153,7 +153,7 @@ gulp.task('release', function(cb) {
         'commit-changelog',     // generate and commit changelog
         'push-changes',         // push all commits to github
         'create-new-tag',       // generate tag and push it
-        'release:github',       // generate github release
+        //'release:github',       // generate github release
         //'publish:coveralls',    // generate and publish coveralls
     function(error) {
         if (error) {
