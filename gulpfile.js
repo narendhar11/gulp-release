@@ -149,8 +149,6 @@ gulp.task('release', function() {
     function(error) {
         if (error) {
             console.log(error);
-        }else{
-            console.log('Release Successfully Created')
         }
         
         //cb(error);
@@ -161,7 +159,7 @@ gulp.task('prerelease', function(){
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
-        token: '97de145701ec520ba22ec53d459210e934ec76ca',                     // or you can set an env var called GITHUB_TOKEN instead
+        token: 'f34739ea2eb9e62050a1f34f79d4fc301ca68411',                     // or you can set an env var called GITHUB_TOKEN instead
         owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
         repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
         tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
