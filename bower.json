@@ -1,6 +1,6 @@
 {
   "name": "fuse",
-  "version": "1.10.4",
+  "version": "1.10.5",
   "dependencies": {
     "angular": "1.6.9",
     "angular-animate": "1.6.9",

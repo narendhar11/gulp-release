@@ -164,7 +164,7 @@ gulp.task('release', function(cb) {
     });
 });
 
-gulp.task('prerelease', ["release"], function(){
+gulp.task('prerelease', function(){
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
