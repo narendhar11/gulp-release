@@ -1,5 +1,6 @@
-## Unreleased (2018-09-04)
+## <small>1.10.2 (2018-09-04)</small>
 
+* chore(release): Release patch version (1.10.2) ([ccfd1c7](https://github.com/narendhar11/gulp-release/commit/ccfd1c7))
 
 
 
