@@ -1,5 +1,12 @@
+## <small>1.10.6 (2018-09-04)</small>
+
+* chore(release): Release patch version (1.10.6) ([06bb8b4](https://github.com/narendhar11/gulp-release/commit/06bb8b4))
+
+
+
 ## <small>1.10.5 (2018-09-04)</small>
 
+* doc(changelog): Changelog up to date ([a79266d](https://github.com/narendhar11/gulp-release/commit/a79266d))
 * chore(release): Release patch version (1.10.5) ([39f74a7](https://github.com/narendhar11/gulp-release/commit/39f74a7))
 
 
