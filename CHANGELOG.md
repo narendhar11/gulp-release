@@ -1,10 +1,12 @@
-## <small>1.11.11 (2018-09-04)</small>
+## <small>1.11.12 (2018-09-04)</small>
 
 * chore(release): Release patch version (1.11.10) ([26b0584](https://github.com/narendhar11/gulp-release/commit/26b0584))
 * chore(release): Release patch version (1.11.11) ([4027841](https://github.com/narendhar11/gulp-release/commit/4027841))
+* chore(release): Release patch version (1.11.12) ([d181606](https://github.com/narendhar11/gulp-release/commit/d181606))
 * chore(release): Release patch version (1.11.7) ([5804da7](https://github.com/narendhar11/gulp-release/commit/5804da7))
 * chore(release): Release patch version (1.11.8) ([d356aa6](https://github.com/narendhar11/gulp-release/commit/d356aa6))
 * chore(release): Release patch version (1.11.9) ([72ecb36](https://github.com/narendhar11/gulp-release/commit/72ecb36))
+* doc(changelog): Changelog up to date ([9ad3638](https://github.com/narendhar11/gulp-release/commit/9ad3638))
 * doc(changelog): Changelog up to date ([13614fc](https://github.com/narendhar11/gulp-release/commit/13614fc))
 * doc(changelog): Changelog up to date ([203aec3](https://github.com/narendhar11/gulp-release/commit/203aec3))
 * doc(changelog): Changelog up to date ([6371219](https://github.com/narendhar11/gulp-release/commit/6371219))
