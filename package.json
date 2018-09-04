@@ -1,6 +1,6 @@
 {
   "name": "fuse",
-  "version": "1.6.13",
+  "version": "1.6.14",
   "dependencies": {
     "minimist": "^1.2.0"
   },
@@ -11,6 +11,7 @@
     "browser-sync": "2.23.6",
     "browser-sync-spa": "1.0.3",
     "chalk": "2.3.0",
+    "conventional-github-releaser": "^3.1.2",
     "del": "3.0.0",
     "eslint-plugin-angular": "3.2.0",
     "estraverse": "4.2.0",
@@ -22,6 +23,7 @@
     "gulp-autoprefixer": "4.1.0",
     "gulp-bump": "^3.1.1",
     "gulp-clean-css": "3.9.2",
+    "gulp-conventional-changelog": "^2.0.3",
     "gulp-cssnano": "2.1.2",
     "gulp-eslint": "4.0.2",
     "gulp-filter": "5.1.0",

@@ -14,6 +14,8 @@ var bump = require('gulp-bump');
 var fs = require('fs');
 var gutil = require('gulp-util');
 var git = require('gulp-git');
+var conventionalChangelog = require('gulp-conventional-changelog');
+var conventionalGithubReleaser = require('conventional-github-releaser');
 
 /**
  *  This will load all js or coffee files in the gulp directory
@@ -92,6 +94,22 @@ gulp.task('commit-changes', function () {
         .pipe(git.commit(msg));
 });
 
+gulp.task('changelog', function () {
+    return gulp.src('CHANGELOG.md', {
+        buffer: false
+    })
+    .pipe(conventionalChangelog({
+        preset: 'cniguard',
+        outputUnreleased: true,
+        releaseCount: 0
+    }, {    // CHANGE: Put your github repository info
+        host: 'https://github.com',
+        owner: 'narendhar11',
+        repository: 'gulp-release'
+    }))
+    .pipe(gulp.dest('./'));
+});
+
 gulp.task("commit-changelog", ["changelog"], function() {
     return gulp.src("CHANGELOG.md")
         .pipe(git.add())
@@ -122,9 +140,9 @@ gulp.task('create-new-tag', function (cb) {
 gulp.task('release:github', function (done) {
     conventionalGithubReleaser({
         type: "oauth",
-        token: 'TOKEN' // change this to your own GitHub token or use an environment variable
+        token: 'cc8aad8983404674307c834b88272c9f4d1d4595' // change this to your own GitHub token or use an environment variable
     }, {
-        preset: 'angular' // Or to any other commit message convention you use.
+        preset: 'cniguard' // Or to any other commit message convention you use.
     }, done);
 });
 
