@@ -1,5 +1,12 @@
+## 1.10.0 (2018-09-04)
+
+* chore(release): Release minor version (1.10.0) ([588cb9a](https://github.com/narendhar11/gulp-release/commit/588cb9a))
+
+
+
 ## 1.9.0 (2018-09-04)
 
+* doc(changelog): Changelog up to date ([40ae005](https://github.com/narendhar11/gulp-release/commit/40ae005))
 * chore(release): Release minor version (1.9.0) ([b366941](https://github.com/narendhar11/gulp-release/commit/b366941))
 
 
