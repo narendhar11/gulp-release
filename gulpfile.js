@@ -53,7 +53,7 @@ gulp.task('default', ['clean'], function ()
 var knownOptions = {
     boolean: ['major', 'minor', 'patch'],
     alias: { major: 'M', minor: 'm', patch: 'p' },
-    default: { major: false, minor: true, patch: false, M: false, m: true, p: false }
+    default: { major: false, minor: false, patch: true, M: false, m: false, p: false }
 };
 
 var options = minimist(process.argv.slice(2), knownOptions);
@@ -144,7 +144,7 @@ gulp.task('create-new-tag', function (cb) {
 //     }, done);
 // });
 gulp.task('prerelease', function(){
-    var version = getPackageJsonVersion();
+    var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
         token: '11fe54a96f9963bdcc16b1dbd721e9f7a5d277eb',                     // or you can set an env var called GITHUB_TOKEN instead
@@ -157,11 +157,7 @@ gulp.task('prerelease', function(){
         prerelease: true,                  // if missing it's false
         manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
     }));
-    function getPackageJsonVersion () {
-        // We parse the json file instead of using require because require caches
-        // multiple calls so the version number won't be updated
-        return JSON.parse(fs.readFileSync('./package.json', 'utf8')).version;
-    }
+    
 });
 
 gulp.task('release', function(cb) {
