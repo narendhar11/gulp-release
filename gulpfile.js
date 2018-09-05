@@ -243,43 +243,40 @@ gulp.task('test-release', function() {
 });
 
 
-// gulp.task('latestrelease', function(){
-//     var version = JSON.parse(fs.readFileSync('package.json')).version;
-//     gulp.src('./dist/some-file.exe')
-//       .pipe(release({
-//         token: 'ff72e13727e83506b7407643fc5fabff4650decb',                     // or you can set an env var called GITHUB_TOKEN instead
-//         owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
-//         repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
-//         tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
-//         //name: 'gulp-release '+version,     // if missing, it will be the same as the tag
-//         //notes: 'very good!',                // if missing it will be left undefined
-//         //draft: false,                       // if missing it's false
-//         prerelease: false,                  // if missing it's false
-//         //manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
-//     }));
+gulp.task('latestrelease', function(){
+    var version = JSON.parse(fs.readFileSync('package.json')).version;
+    gulp.src('./dist/some-file.exe')
+      .pipe(release({
+        token: 'f928d09ef764a46756147738ffe4aaa11c2c1ef8',                     // or you can set an env var called GITHUB_TOKEN instead
+        owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
+        repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
+        tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
+        //name: 'gulp-release '+version,     // if missing, it will be the same as the tag
+        //notes: 'very good!',                // if missing it will be left undefined
+        //draft: false,                       // if missing it's false
+        prerelease: false,                  // if missing it's false
+        reuseRelease: true,
+        //manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
+    }));
     
-// });
+});
 
-
-
-
-
-// gulp.task('prod-release', function() {
-//     runSequence(             // build + bundle + tests + docs
-//         //'default',
-//         //'patch-version',             // bump version
-//         'latestrelease',
-//         'patch-commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
-//         'commit-changelog',     // generate and commit changelog
-//         'push-changes',        // push all commits to github        
-//         //'create-new-tag',       // generate tag and push it
-//         //'release:github',       // generate github release
-//         //'publish:coveralls',    // generate and publish coveralls
-//     function(error) {
-//         if (error) {
-//             console.log(error);
-//         }
+gulp.task('prod-release', function() {
+    runSequence(             // build + bundle + tests + docs
+        //'default',
+        //'patch-version',             // bump version
+        'latestrelease',
+        'patch-commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
+        'commit-changelog',     // generate and commit changelog
+        'push-changes',        // push all commits to github        
+        //'create-new-tag',       // generate tag and push it
+        //'release:github',       // generate github release
+        //'publish:coveralls',    // generate and publish coveralls
+    function(error) {
+        if (error) {
+            console.log(error);
+        }
         
-//         //cb(error);
-//     });
-// });
+        //cb(error);
+    });
+});
