@@ -259,7 +259,7 @@ gulp.task('latestrelease', function(){
         prerelease: false,                  // if missing it's false
         reuseRelease: true,
         reuseDraftOnly: true,
-        editRelease: true,
+        editRelease: false,
         //manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
     }));
     
