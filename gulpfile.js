@@ -247,7 +247,7 @@ gulp.task('latestrelease', function(){
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
-        token: 'fc651ad42a982c5459303a6f5fe0b478a7313d36',                     // or you can set an env var called GITHUB_TOKEN instead
+        token: '180b33c25f653cabeaa0e9c9aa48e88e215a07e8',                     // or you can set an env var called GITHUB_TOKEN instead
         owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
         repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
         tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
