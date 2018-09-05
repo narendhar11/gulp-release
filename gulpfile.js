@@ -208,7 +208,7 @@ gulp.task('prerelease', function(){
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
-        token: 'ff72e13727e83506b7407643fc5fabff4650decb',                     // or you can set an env var called GITHUB_TOKEN instead
+        token: 'd15001c047fb21d218a8aac3c0f254c5045ac4ae',                     // or you can set an env var called GITHUB_TOKEN instead
         owner: 'narendhar11',               // if missing, it will be extracted from manifest (the repository.url field)
         repo: 'gulp-release',               // if missing, it will be extracted from manifest (the repository.url field)
         tag: version,                       // if missing, the version will be extracted from manifest and prepended by a 'v'
@@ -216,7 +216,7 @@ gulp.task('prerelease', function(){
         notes: 'very good!',                // if missing it will be left undefined
         draft: false,                       // if missing it's false
         prerelease: true,                   // if missing it's false
-        reuseRelease: true,
+        reuseRelease: false,
         reuseDraftOnly: true,
         editRelease: true,
         manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
@@ -226,7 +226,7 @@ gulp.task('prerelease', function(){
 
 gulp.task('test-release', function() {
     runSequence(             // build + bundle + tests + docs
-        'default',
+        //'default',
         'patch-version',             // bump version
         'prerelease',
         'patch-commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
@@ -259,7 +259,7 @@ gulp.task('latestrelease', function(){
         prerelease: false,                  // if missing it's false
         reuseRelease: true,
         reuseDraftOnly: true,
-        editRelease: false,
+        editRelease: true,
         //manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
     }));
     
