@@ -208,7 +208,7 @@ gulp.task('prerelease', function(){
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
-        token: '180b33c25f653cabeaa0e9c9aa48e88e215a07e8',                     // or you can set an env var called GITHUB_TOKEN instead
+        token: 'c6df973930756b95194f34acea5b847208a1d2f2',                     // or you can set an env var called GITHUB_TOKEN instead
         owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
         repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
         tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
@@ -218,16 +218,15 @@ gulp.task('prerelease', function(){
         prerelease: true,                  // if missing it's false
         manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
     }));
-    
 });
 
 
 gulp.task('test-release', function() {
     runSequence(             // build + bundle + tests + docs
-        //'default',
-        'prerelease-version',             // bump version
+        'default',
+        'patch-version',             // bump version
         'prerelease',
-        'prerelease-commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
+        'patch-commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
         'commit-changelog',     // generate and commit changelog
         'push-changes',        // push all commits to github        
         //'create-new-tag',       // generate tag and push it
@@ -251,11 +250,11 @@ gulp.task('latestrelease', function(){
         owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
         repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
         tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
-        name: 'gulp-release '+version,     // if missing, it will be the same as the tag
-        notes: 'very good!',                // if missing it will be left undefined
-        draft: false,                       // if missing it's false
-        prerelease: false,                  // if missing it's false
-        manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
+        //name: 'gulp-release '+version,     // if missing, it will be the same as the tag
+        //notes: 'very good!',                // if missing it will be left undefined
+        //draft: false,                       // if missing it's false
+        //prerelease: false,                  // if missing it's false
+        //manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
     }));
     
 });
