@@ -246,7 +246,7 @@ gulp.task('latestrelease', function(){
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
-        token: 'ff20c907dc24193226577d91cdaa2a10b1ff04f7',                     // or you can set an env var called GITHUB_TOKEN instead
+        token: 'ff72e13727e83506b7407643fc5fabff4650decb',                     // or you can set an env var called GITHUB_TOKEN instead
         owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
         repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
         tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
@@ -266,7 +266,7 @@ gulp.task('latestrelease', function(){
 gulp.task('prod-release', function() {
     runSequence(             // build + bundle + tests + docs
         //'default',
-        'patch-version',             // bump version
+        //'patch-version',             // bump version
         'latestrelease',
         'patch-commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
         'commit-changelog',     // generate and commit changelog
