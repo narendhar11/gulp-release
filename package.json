@@ -1,6 +1,6 @@
 {
   "name": "fuse",
-  "version": "1.11.16",
+  "version": "1.11.17",
   "dependencies": {
     "minimist": "^1.2.0"
   },
