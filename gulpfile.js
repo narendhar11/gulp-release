@@ -50,39 +50,86 @@ gulp.task('default', ['clean'], function ()
 });
 
 
-var knownOptions = {
-    boolean: ['major', 'minor', 'patch'],
-    alias: { major: 'M', minor: 'm', patch: 'p' },
-    default: { major: false, minor: false, patch: true, M: false, m: false, p: false }
-};
+// var knownOptions = {
+//     boolean: ['major', 'minor', 'patch','prerelease'],
+//     default: 
+//     {
+//         major: false, 
+//         minor: false, 
+//         patch: false,
+//         prerelease: true
+//     }
+// };
 
-var options = minimist(process.argv.slice(2), knownOptions);
+// var options = minimist(process.argv.slice(2), knownOptions);
+// console.log(options);
+// var options = {
+//     major: 'major', 
+//     minor: 'minor', 
+//     patch: 'patch',
+//     prerelease: 'prerelease'
+// }
 
-gulp.task('version', function () {
-    var src = gulp.src(['./bower.json', './package.json']);
-    // Do patch by default
-    var stage = null;
+// gulp.task('version', function () {
+//     var src = gulp.src(['./bower.json', './package.json']);
+//     // Do patch by default
+//     var stage = null;
     
-    if (options.major) {
-        stage = src.pipe(bump({type: 'major'}).on('error', gutil.log));
-    } else if (options.minor) {
-        stage = src.pipe(bump({type: 'minor'}).on('error', gutil.log));
-    } else {
-        stage = src.pipe(bump({type: 'patch'}).on('error', gutil.log));
-    }
+//     if (options.major) {
+//         stage = src.pipe(bump({type: 'major'}).on('error', gutil.log));
+//     } else if (options.minor) {
+//         stage = src.pipe(bump({type: 'minor'}).on('error', gutil.log));
+//     } else {
+//         stage = src.pipe(bump({type: 'patch'}).on('error', gutil.log));
+//     }
         
-    return stage.pipe(gulp.dest('./'));
+//     return stage.pipe(gulp.dest('./'));
+// });
+
+gulp.task('patch-version', function () {
+    // We hardcode the version change type to 'patch' but it may be a good idea to
+    // use minimist (https://www.npmjs.com/package/minimist) to determine with a
+    // command argument whether you are doing a 'major', 'minor' or a 'patch' change.
+      return gulp.src(['./bower.json','./package.json'])
+        .pipe(bump({type: "patch"}).on('error', gutil.log))
+        .pipe(gulp.dest('./'));
+});
+gulp.task('prerelease-version', function () {
+    // We hardcode the version change type to 'patch' but it may be a good idea to
+    // use minimist (https://www.npmjs.com/package/minimist) to determine with a
+    // command argument whether you are doing a 'major', 'minor' or a 'patch' change.
+      return gulp.src(['./bower.json','./package.json'])
+        .pipe(bump({type: "prerelease"}).on('error', gutil.log))
+        .pipe(gulp.dest('./'));
 });
 
-gulp.task('commit-changes', function () {
+gulp.task('patch-commit-changes', function () {
     var kind = 'patch';
     
     
-    if (options.major) {
-        kind = 'major';
-    } else if (options.minor) {
-        kind = 'minor';
-    }
+    // if (options.major) {
+    //     kind = 'major';
+    // } else if (options.minor) {
+    //     kind = 'minor';
+    // }
+    
+    var version = JSON.parse(fs.readFileSync('package.json')).version;
+    var msg = 'chore(release): Release ' + kind + ' version (' + version + ')';
+
+    return gulp.src('.')
+        .pipe(git.add())
+        .pipe(git.commit(msg));
+});
+
+gulp.task('prerelease-commit-changes', function () {
+    var kind = 'prerelease';
+    
+    
+    // if (options.major) {
+    //     kind = 'major';
+    // } else if (options.minor) {
+    //     kind = 'minor';
+    // }
     
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     var msg = 'chore(release): Release ' + kind + ' version (' + version + ')';
@@ -142,8 +189,7 @@ gulp.task('release', function() {
         'prerelease',
         'commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
         'commit-changelog',     // generate and commit changelog
-        'push-changes',        // push all commits to github
-        
+        'push-changes',        // push all commits to github        
         //'create-new-tag',       // generate tag and push it
         //'release:github',       // generate github release
         //'publish:coveralls',    // generate and publish coveralls
@@ -156,11 +202,13 @@ gulp.task('release', function() {
     });
 });
 
+
+
 gulp.task('prerelease', function(){
     var version = JSON.parse(fs.readFileSync('package.json')).version;
     gulp.src('./dist/some-file.exe')
       .pipe(release({
-        token: 'fc651ad42a982c5459303a6f5fe0b478a7313d36',                     // or you can set an env var called GITHUB_TOKEN instead
+        token: '180b33c25f653cabeaa0e9c9aa48e88e215a07e8',                     // or you can set an env var called GITHUB_TOKEN instead
         owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
         repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
         tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
@@ -174,5 +222,64 @@ gulp.task('prerelease', function(){
 });
 
 
+gulp.task('test-release', function() {
+    runSequence(             // build + bundle + tests + docs
+        //'default',
+        'prerelease-version',             // bump version
+        'prerelease',
+        'prerelease-commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
+        'commit-changelog',     // generate and commit changelog
+        'push-changes',        // push all commits to github        
+        //'create-new-tag',       // generate tag and push it
+        //'release:github',       // generate github release
+        //'publish:coveralls',    // generate and publish coveralls
+    function(error) {
+        if (error) {
+            console.log(error);
+        }
+        
+        //cb(error);
+    });
+});
 
 
+gulp.task('latestrelease', function(){
+    var version = JSON.parse(fs.readFileSync('package.json')).version;
+    gulp.src('./dist/some-file.exe')
+      .pipe(release({
+        token: 'fc651ad42a982c5459303a6f5fe0b478a7313d36',                     // or you can set an env var called GITHUB_TOKEN instead
+        owner: 'narendhar11',                    // if missing, it will be extracted from manifest (the repository.url field)
+        repo: 'gulp-release',            // if missing, it will be extracted from manifest (the repository.url field)
+        tag: version,                      // if missing, the version will be extracted from manifest and prepended by a 'v'
+        name: 'gulp-release '+version,     // if missing, it will be the same as the tag
+        notes: 'very good!',                // if missing it will be left undefined
+        draft: false,                       // if missing it's false
+        prerelease: false,                  // if missing it's false
+        manifest: require('./package.json') // package.json from which default values will be extracted if they're missing
+    }));
+    
+});
+
+
+
+
+
+gulp.task('prod-release', function() {
+    runSequence(             // build + bundle + tests + docs
+        //'default',
+        'patch-version',             // bump version
+        'latestrelease',
+        'patch-commit-changes',       // add all and commit under "relase MAJOR|MINOR|PATCH version (vVERSION)" message
+        'commit-changelog',     // generate and commit changelog
+        'push-changes',        // push all commits to github        
+        //'create-new-tag',       // generate tag and push it
+        //'release:github',       // generate github release
+        //'publish:coveralls',    // generate and publish coveralls
+    function(error) {
+        if (error) {
+            console.log(error);
+        }
+        
+        //cb(error);
+    });
+});
